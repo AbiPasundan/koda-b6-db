@@ -29,14 +29,13 @@ erDiagram
         created_at time_stamp
     }
 
-    Payment ||--|{ Product : ""
+    
     Payment {
         id int pk
         order_id int fk
         method enum
         amount decimal
         status enum
-        order_id int fk
     }
 
     Product {
@@ -46,12 +45,16 @@ erDiagram
         desc text
         size varchar
         stock int
+        category enum
         created_at time_stamp
     }
 
-    User ||--o{ Cart : owns
-    Cart ||--|{ Cart_Item : contains
-    Product ||--o{ Cart_Item : added_to
+    User ||--o{ Cart : ""
+    User ||--o{ Order : ""
+    Cart ||--|{ Cart_Item : ""
+    Product ||--o{ Cart_Item : ""
+    Product ||--o{ Detail_Order : ""
+    Order ||--o{ Detail_Order : ""
 
     Cart {
         id int pk
@@ -66,6 +69,7 @@ erDiagram
         quantity int
     }
 
+    Payment ||--|| Order : ""
     Order {
         no_order int pk
         user_id int fk
@@ -73,12 +77,11 @@ erDiagram
         status enum
     }
 
-    Order ||--|| Payment : ""
     Detail_Order {
         id int pk
         order_id int fk
         product_id int fk
-        created_at time_stamp fk
+        created_at time_stamp
     }
 
 ```
