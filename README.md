@@ -1,15 +1,5 @@
 # ERD coffee shop
 
-<!-- USER ||--o{ ORDER : places -->
-
-<!-- 
-
-    CUSTOMER ||--o{ ORDER : places
-    ORDER ||--|{ LINE-ITEM : contains
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
-
- -->
-
 ```mermaid
 
 ---
@@ -17,71 +7,106 @@ title: Order example
 ---
 erDiagram
 
-    
-    User {
-        id int pk
-        name varchar
-        email varchar
-        phone varchar
-        address text
-        photo varchar
-        role enum
-        created_at time_stamp
-    }
+    %%{init: {'theme': 'forest'}}%%
 
-    
-    Payment {
+    product {
         id int pk
-        order_id int fk
-        method enum
-        amount decimal
-        status enum
-    }
-
-    Product {
-        id int pk
+        pictures varchar fk
         product_name varchar
-        price decimal
         desc text
-        size varchar
-        stock int
-        category enum
-        created_at time_stamp
-    }
-
-    User ||--o{ Cart : ""
-    User ||--o{ Order : ""
-    Cart ||--|{ Cart_Item : ""
-    Product ||--o{ Cart_Item : ""
-    Product ||--o{ Detail_Order : ""
-    Order ||--o{ Detail_Order : ""
-
-    Cart {
-        id int pk
-        user_id int fk
-        created_at timestamp
-    }
-
-    Cart_Item {
-        id int pk
-        cart_id int fk
-        product_id int fk
+        price decimal
+        flash_sale varchar
+        rating varchar
+        discount int fk
+        sizr int fk
+        review int
+        category varchar fk
         quantity int
     }
-
-    Payment ||--|| Order : ""
-    Order {
-        no_order int pk
-        user_id int fk
-        date time_stamp
-        status enum
+    
+    product_variant {
+        variant int pk
+        add_price varchar
+    }
+    
+    product_size {
+        id int pk
+        size_name int pk
+        add_price int pk
+    }
+    
+    product_images {
+        p_id int pk
+        path varchar pk
     }
 
-    Detail_Order {
+    discount {
         id int pk
-        order_id int fk
-        product_id int fk
-        created_at time_stamp
+        discount_rate varchar
+        desc varchar
+        is_flash_sale varchar
+    }
+    
+    category {
+        category_id int pk
+        category_name varchar
+    }
+
+    reviews {
+        reviews_id int pk
+        message varchar
+        rattings varchar
+    }
+
+    product ||--|{product_variant: ""
+    product ||--|{product_size : ""
+    product ||--|{product_images : ""
+    product ||--|{category : ""
+    product ||--|{reviews : ""
+    product }|--||discount : ""
+
+    reviews ||--|{users : ""
+    product ||--||cart : ""
+    users ||--||cart : ""
+
+    cart {
+        cart_id int pk
+    }
+
+    users {
+        id int pk
+        full_name varchar
+        email varchar
+        password varchar
+        address text
+        phone varchar
+        pictures varchar
+    }
+
+    transaction {
+        quantity int fk
+        full_name varchar
+        email varchar
+        address varchar
+        sub_total int
+        delivery int
+        tax int
+        total int
+        transaction_id int fk
+        date time_stamp
+        status varchar fk
+        payment_method varchar fk
+    }
+
+    transaction }|--|{ transaction_product : ""
+    product }|--|{ transaction_product : ""
+
+    transaction_product {
+        transaction_id int pk
+        quantity int
+        size varchar
+        variant varchar
+        price int
     }
 
 ```
