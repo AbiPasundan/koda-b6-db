@@ -18,10 +18,10 @@ CREATE TABLE "products" (
     product_desc TEXT,
     price INT,
     quantity INT,
-    product_category INT,
-    discount INT,
+    product_category INT NOT NULL,
+    discount INT NOT NULL,
     CONSTRAINT fk_category FOREIGN KEY (product_category) REFERENCES category(category_id) ON DELETE SET NULL,
-    CONSTRAINT fk_discount FOREIGN KEY (discount) REFERENCES discount(discount_id) ON DELETE CASCADE
+    CONSTRAINT fk_discount FOREIGN KEY (discount) REFERENCES discount(discount_id) ON DELETE SET NULL
 );
 
 CREATE TABLE "product_variant" (
@@ -75,6 +75,14 @@ CREATE TABLE "transaction" (
     payment_method INT
 );
 
+ALTER TABLE product_variant 
+ADD CONSTRAINT unique_variant_per_product 
+UNIQUE (product_id, variant_name);
+
+ALTER TABLE product_size
+ADD CONSTRAINT unique_size_per_product
+UNIQUE (product_id, size_name);
+
 INSERT INTO category (category_id, category_name) VALUES (DEFAULT, 'kopi'), (DEFAULT, 'non kopi'),(DEFAULT, 'makanan'),(DEFAULT, 'minuman'),(DEFAULT, 'add on'),(DEFAULT, 'makanan asin'),(DEFAULT, 'makanan manis'),(DEFAULT, 'makanan ringan'),(DEFAULT, 'makanan berat'),(DEFAULT, 'roti');
 
 INSERT INTO discount (discount_rate, description, is_flash_sale)
@@ -101,8 +109,6 @@ INSERT INTO products
 VALUES 
 ('Cappuccino', 'Coffee with milk foam', 30000, 100, 1, 1);
 
-INSERT INTO product_variant (product_id, variant_name, add_price) VALUES (1, 'hot', 1500);
-
 INSERT INTO product_variant 
 (product_variant_id, product_id, variant_name, add_price)
 VALUES
@@ -113,7 +119,21 @@ VALUES
 (DEFAULT, 3, 'Original', 0),
 (DEFAULT, 3, 'Sweet', 0);
 
-INSERT INTO product_size (product_id, size_name, size_price) VALUES (1, 'Small', 1000);
+INSERT INTO product_size
+  (product_id, size_name, size_price)
+  VALUES (1, 'Small', 100), (1, 'Regular', 1000), (1, 'Large', 5000), (1, 'Big Boss', 10000),
+  (2, 'Regular', 0),
+  (3, 'Small', 0), (3, 'Medium', 0), (3, 'Full Cake', 5000),
+  (4, 'Small', 0), (4, 'Medium', 0), (4, 'Full Cake', 5000),
+  (5, 'Regular', 0),
+  (6, 'Small', 0), (6, 'Regular', 0), (6, 'Large', 5000), (6, 'Big Boss', 10000),
+  (7, 'Regular', 0),
+  (8, 'Small', 0),(8, 'Regular', 0),(8, 'Large', 1500),
+  (9, 'Small', 0),(9, 'Regular', 0),(9, 'Large', 1500),
+  (10, 'Small', 0),(10, 'Regular', 0),(10, 'Large', 1500),
+  (11, 'Small', 0),(11, 'Regular', 0),(11, 'Large', 1500),
+  (12, 'Small', 0),(12, 'Regular', 0),(12, 'Large', 1500)
+  ;
 
 INSERT INTO product_images (product_id, path) VALUES (1, 'test/images');
 
