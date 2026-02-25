@@ -1,5 +1,11 @@
 # ERD coffee shop
 
+<!--
+buatkan query dalam file query.sql mendapatkan satu product yang sudah di agregasikan dengan variant dan size yang dipilih
+
+final expectation: product, size, variant
+-->
+
 ```mermaid
 
 ---

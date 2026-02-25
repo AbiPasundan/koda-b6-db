@@ -75,6 +75,11 @@ CREATE TABLE "transaction" (
     payment_method INT
 );
 
+CREATE TABLE "reviews" (
+    review_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    massage TEXT,
+    ratings INT
+)
 ALTER TABLE product_variant 
 ADD CONSTRAINT unique_variant_per_product 
 UNIQUE (product_id, variant_name);
