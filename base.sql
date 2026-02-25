@@ -90,10 +90,10 @@ INSERT INTO products (id, product_name, product_desc, price, quantity, product_c
   (DEFAULT, 'Brownis', 'makanan yang dipanggang yang berbentuk persegi, datar atau bar', 35000, 25, 2, 2),
   (DEFAULT, 'Muffin', 'Kue individu (sekali makan) yang dipanggang dalam cetakan berbentuk cangkir atau muffin tin.', 30000, 47, 2, 3),
   (DEFAULT, 'Kopi tubruk', '', 30000, 90, 2, 1),
-  (DEFAULT, '', '', 30000, 100, 2, 9),
-  (DEFAULT, '', '', 30000, 10, 2, 5),
-  (DEFAULT, '', '', 30000, 5, 2, 7),
-  (DEFAULT, '', '', 30000, 7, 2, 7),
+  (DEFAULT, 'Melya', 'kopi berbahan dasar espresso yang dicampur dengan kakao bubuk dan madu.', 30000, 100, 2, 9),
+  (DEFAULT, 'Café au lait', 'adalah campuran kopi hitam yang tajam dengan susu panas.', 30000, 10, 2, 5),
+  (DEFAULT, 'Machiato', 'minuman kopi yang dibuat dengan mencampurkan espresso dengan susu.', 30000, 5, 2, 7),
+  (DEFAULT, 'Esspreso', 'Kopi bertekanan Tinggi', 30000, 7, 2, 7),
   (DEFAULT, 'test', 'testing123', 30000, 9, 2, 8);
 
 INSERT INTO products 
@@ -102,3 +102,25 @@ VALUES
 ('Cappuccino', 'Coffee with milk foam', 30000, 100, 1, 1);
 
 INSERT INTO product_variant (product_id, variant_name, add_price) VALUES (1, 'hot', 1500);
+
+INSERT INTO product_variant 
+(product_variant_id, product_id, variant_name, add_price)
+VALUES
+(DEFAULT, 1, 'Hot', 0),
+(DEFAULT, 1, 'Ice', 2000),
+(DEFAULT, 2, 'Hot', 0),
+(DEFAULT, 2, 'Ice', 0),
+(DEFAULT, 3, 'Original', 0),
+(DEFAULT, 3, 'Sweet', 0);
+
+INSERT INTO product_size (product_id, size_name, size_price) VALUES (1, 'Small', 1000);
+
+INSERT INTO product_images (product_id, path) VALUES (1, 'test/images');
+
+SELECT * FROM products;
+SELECT * FROM discount;
+SELECT * FROM category;
+
+SELECT * FROM product_variant;
+SELECT * FROM product_size;
+SELECT * FROM product_images;
