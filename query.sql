@@ -18,3 +18,21 @@ AND product_size.product_size_id = 3;
 
 SELECT products.price, products.quantity, (products.price * products.quantity) AS sub_total
 FROM products
+
+
+-- KEBUTUHAN DATA DI LANDING PAGES
+-- 1. DATA CARD
+-- analisa di table landing page kubutuhan querynya apa saja
+-- table card di landing page:
+-- data product
+-- * image ~
+-- * title ~
+-- * description ~
+-- * rating 
+-- * price ~
+
+SELECT product_images.path AS pictures, products.product_name AS title, products.product_desc AS description, products.price AS price
+FROM products
+JOIN product_images ON product_images_id = product_images.product_images_id
+WHERE product_images.product_id = 1
+AND products.id = 1
