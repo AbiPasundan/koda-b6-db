@@ -1,18 +1,18 @@
--- DROP TABLE "users", "products", "transaction", "product_images", "category", "product_size","product_variant","discount";
+-- DROP TABLE "users", "products", "orders", "product_images", "category", "product_size","product_variant","discount", "reviews";
 
-CREATE TABLE "category" (
+CREATE TABLE category (
     category_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     category_name VARCHAR(30)
 );
 
-CREATE TABLE "discount" (
+CREATE TABLE discount (
     discount_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     discount_rate INT,
     description VARCHAR(500),
     is_flash_sale BOOLEAN
 );
 
-CREATE TABLE "products" (
+CREATE TABLE products (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     product_name VARCHAR(30),
     product_desc TEXT,
@@ -24,7 +24,7 @@ CREATE TABLE "products" (
     CONSTRAINT fk_discount FOREIGN KEY (discount) REFERENCES discount(discount_id) ON DELETE SET NULL
 );
 
-CREATE TABLE "product_variant" (
+CREATE TABLE product_variant (
     product_variant_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     product_id INT,
     variant_name VARCHAR(50),
@@ -32,7 +32,7 @@ CREATE TABLE "product_variant" (
     CONSTRAINT fk_variant FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
-CREATE TABLE "product_size" (
+CREATE TABLE product_size (
     product_size_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     product_id INT,
     size_name VARCHAR(50),
@@ -40,27 +40,34 @@ CREATE TABLE "product_size" (
     CONSTRAINT fk_size FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
-CREATE TABLE "product_images" (
+CREATE TABLE product_images (
     product_images_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     product_id INT,
-    path VARCHAR(500),
+    path VARCHAR(255),
     CONSTRAINT fk_images FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
-
-
-CREATE TABLE "users" (
+CREATE TABLE users (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     full_name VARCHAR(30),
     email VARCHAR(30),
-    password VARCHAR(500),
+    password TEXT,
     address TEXT,
     phone VARCHAR(30),
     pictures VARCHAR(100)
 );
 
 
-CREATE TABLE "transaction" (
+CREATE TABLE reviews (
+    review_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id INT,
+    messages TEXT,
+    ratings INT,
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+
+CREATE TABLE "orders" (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     delivery_method VARCHAR(30),
     full_name VARCHAR(100),
@@ -75,11 +82,6 @@ CREATE TABLE "transaction" (
     payment_method INT
 );
 
-CREATE TABLE "reviews" (
-    review_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    massage TEXT,
-    ratings INT
-);
 
 ALTER TABLE product_variant 
 ADD CONSTRAINT unique_variant_per_product 
@@ -128,7 +130,7 @@ INSERT INTO products (id, product_name, product_desc, price, quantity, product_c
   (DEFAULT, 'Machiato', 'minuman kopi yang dibuat dengan mencampurkan espresso dengan susu.', 30000, 5, 2, 7),
   (DEFAULT, 'Esspreso', 'Kopi bertekanan Tinggi', 9000, 7, 2, 7),
   (DEFAULT, 'V60', 'No Description Yet', 15000, 9, 2, 8),
-  (DEFAULT, 'Plain Milk', 'susu segar atau UHT tanpa tambahan perasa, gula, atau aroma, yang kaya akan protein, lemak utuh, vitamin, dan kalsium', 17500, 27, 4, 5)
+  (DEFAULT, 'Plain Milk', 'susu segar atau UHT tanpa tambahan perasa, gula, atau aroma, yang kaya akan protein, lemak utuh, vitamin, dan kalsium', 17500, 27, 4, 5),
   (DEFAULT, 'Flavour Milk', 'No Description Yet', 17000, 12, 4, 5),
   (DEFAULT, 'Soekapi Platter', 'No Description Yet', 70000, 9, 3, 5),
   (DEFAULT, 'Bitterballen', 'kudapan goreng khas Belanda yang sangat populer, berbentuk bola-bola kecil (sekitar 3-4 cm) dengan tekstur renyah di luar dan isian ragout daging yang lembut dan gurih di dalam', 35000, 27, 3, 5),
@@ -165,7 +167,7 @@ INSERT INTO products (id, product_name, product_desc, price, quantity, product_c
   (DEFAULT, 'Aero press', 'alat seduh kopi manual portabel yang menggunakan tekanan udara untuk menghasilkan kopi yang clean, intens, dan kaya rasa dalam waktu 2-3 menit.', 24000, 15, 2,1),
   (DEFAULT, 'Cold Brew Coffee', 'metode penyeduhan kopi dengan merendam bubuk kopi giling kasar dalam air dingin/suhu ruang selama 12–24 jam, menghasilkan konsentrat kopi rendah asam, manis alami, dan halus. ', 29000, 21, 2,1),
   (DEFAULT, 'V60', 'metode seduh kopi manual (manual brew) yang menghasilkan kopi bersih dan aromatik menggunakan dripper berbentuk V', 39000, 27, 2,1),
-  (DEFAULT, 'Berry Good & Ice Cream', 'idangan penutup berbahan dasar stroberi segar, sering kali berupa es krim yang dicampur dengan buah beri utuh atau saus beri kental. ', 45000, 33, 2,9),
+  (DEFAULT, 'Berry Good & Ice Cream', 'idangan penutup berbahan dasar stroberi segar, sering kali berupa es krim yang dicampur dengan buah beri utuh atau saus beri kental. ', 45000, 33, 2,9)
   ;
 
 INSERT INTO products 
@@ -207,10 +209,34 @@ INSERT INTO product_size
 
 INSERT INTO product_images (product_id, path) VALUES (1, 'test/images');
 
--- SELECT * FROM products;
--- SELECT * FROM discount;
--- SELECT * FROM category;
+INSERT INTO
+  users
+  ("id", "full_name", "email", "password", "address", "phone", "pictures")
+  VALUES
+  (DEFAULT, 'testing admin','admin@mail.com','admin#123','maharaja, depok','0871234455','images/test/path/phone.jpg'),
+  (DEFAULT, 'normal users','users@mail.com','qwertyui','Kuningan Jakarta Selatan','0811225172','images/test/path/phone.png'),
+  (DEFAULT, 'Karto Suwiryo','kart@gmail.com','karto123','Tambun, Bekasi','0871928333','images/karto/path/kart.jpg'),
+  (DEFAULT, 'Arya Wiradatakusuma','aryawir@gmail.com','wiradata123','Jatiuwung, Tangerang','0891928333','images/arya/path/ary.jpg'),
+  (DEFAULT, 'Iskandar Dinata','iskadin@gmail.com','iskandar#111','Kiaracondong, Kota Bandung','0831927731','images/iskandar/path/dinata.jpg'),
+  (DEFAULT, 'Ahung Surawisesa','surawisesa@gmail.com','ahsur#999','Kawalu, Kota Tasikamalaya','0831998731','images/surawisesa/path/surawisesa.jpg'),
+  (DEFAULT, 'Deandles','dean@gmail.com','euy#999','Serpong, Kota Tangerang Selatan','0831991131','images/deandles/path/dean.jpg'),
+  (DEFAULT, 'Frederic Hole','frederic11@gmail.com','kfhole#1928','Gunung Putri, Bogor','0828391131','images/frederic/path/kfhole.jpg'),
+  (DEFAULT, 'Atja Sholeh','atja113@gmail.com','atja#*#111','Kawali, Ciamis','0822394131','images/atja/path/atja.jpg'),
+  (DEFAULT, 'Asep Budi','asbud@gmail.com','asep#budi*11','Ciampelas, Kota Bandung','0822394541','images/asep/path/budi.jpg')
+  ;
 
--- SELECT * FROM product_variant;
--- SELECT * FROM product_size;
--- SELECT * FROM product_images;
+INSERT INTO
+  reviews
+  (review_id, user_id, messages, ratings )
+  VALUES
+  (DEFAULT, 1, 'testing reviews', 5),
+  (DEFAULT, 3, 'bagus lumayan', 1),
+  (DEFAULT, 5, 'sangat buruk', 4),
+  (DEFAULT, 2, 'rekomended', 6),
+  (DEFAULT, 6, 'cheap and good', 8),
+  (DEFAULT, 8, 'hidden gem', 7),
+  (DEFAULT, 7, 'art of quality', 10),
+  (DEFAULT, 4, 'banyak tukang parkir', 3)
+  ;
+
+select * from reviews
