@@ -29,6 +29,8 @@ table testimoni di landing pages:
 * message
 * reviews
 
+sintak join setelah on adalah kolom yang mempunyai hubungan dengan table lain
+
 -->
 
 ```mermaid

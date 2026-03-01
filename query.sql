@@ -36,3 +36,22 @@ FROM products
 JOIN product_images ON product_images_id = product_images.product_images_id
 WHERE product_images.product_id = 1
 AND products.id = 1
+
+-- 2. DATA TESTIMONEY
+-- table testimoni di landing pages:
+-- * images
+-- * message
+-- * reviews
+
+
+
+-- KEBUTUHAN DATA DI BROWSE PRODUCT
+-- 1. CARD PRODUCT
+-- data product
+-- * image ~
+-- * title ~
+-- * is_flash_sale
+-- * description ~
+-- * rating 
+-- * price ~
+-- * price_if_discount
