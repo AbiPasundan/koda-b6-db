@@ -97,23 +97,32 @@ erDiagram
     users {
         INT id PK
         VARCHAR(255) full_name
-        VARCHAR(255) email
+        VARCHAR(255) email UK
         TEXT password
         TEXT address
         VARCHAR(255) phone
-        VARCHAR(255) pictures
     }
+
+    user_images {
+        INT user_images_id PK
+        INT user_id FK
+        VARCHAR(255) path
+    }
+    user_images }o..|| users : fk_user_images
 
     reviews {
         INT review_id PK
         INT user_id FK
+        INT product_id FK
         TEXT messages
         INT ratings
     }
-    reviews }o..|| users : fk_user_id
+    reviews }o..|| users : fk_user_review
+    reviews }o..|| products : fk_product_review
 
     orders {
         INT id PK
+        INT user_id FK
         VARCHAR(255) delivery_method
         VARCHAR(255) full_name
         VARCHAR(255) email
@@ -126,5 +135,19 @@ erDiagram
         VARCHAR(255) status
         INT payment_method
     }
+    orders }o..|| users : fk_order_user
+
+    order_items {
+        INT order_item_id PK
+        INT order_id FK
+        INT product_id FK
+        INT quantity
+        INT price
+        VARCHAR(255) product_name
+        VARCHAR(255) variant_name
+    }
+    order_items }o..|| orders : fk_order
+    order_items }o..|| products : fk_product
+
 
 ```
