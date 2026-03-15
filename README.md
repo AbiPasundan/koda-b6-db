@@ -50,7 +50,7 @@ erDiagram
     discount {
         INT discount_id PK
         INT discount_rate
-        VARCHAR(500) description
+        TEXT description
         BOOLEAN is_flash_sale
     }
 
@@ -74,7 +74,7 @@ erDiagram
     product_variant {
         INT product_variant_id PK
         INT product_id FK
-        VARCHAR(50) variant_name
+        VARCHAR(255) variant_name
         INT add_price
     }
     product_variant }o..|| products : fk_variant
@@ -82,7 +82,7 @@ erDiagram
     product_size {
         INT product_size_id PK
         INT product_id FK
-        VARCHAR(50) size_name
+        VARCHAR(255) size_name
         INT size_price
     }
     product_size }o..|| products : fk_size
@@ -96,12 +96,12 @@ erDiagram
 
     users {
         INT id PK
-        VARCHAR(30) full_name
-        VARCHAR(30) email
+        VARCHAR(255) full_name
+        VARCHAR(255) email
         TEXT password
         TEXT address
-        VARCHAR(30) phone
-        VARCHAR(100) pictures
+        VARCHAR(255) phone
+        VARCHAR(255) pictures
     }
 
     reviews {
@@ -114,16 +114,16 @@ erDiagram
 
     orders {
         INT id PK
-        VARCHAR(30) delivery_method
-        VARCHAR(100) full_name
-        VARCHAR(100) email
+        VARCHAR(255) delivery_method
+        VARCHAR(255) full_name
+        VARCHAR(255) email
         TEXT address
         INT sub_total
         INT delivery_fee
         INT tax
         INT total
         TIMESTAMP date
-        VARCHAR(30) status
+        VARCHAR(255) status
         INT payment_method
     }
 
