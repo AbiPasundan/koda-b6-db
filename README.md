@@ -68,8 +68,8 @@ erDiagram
         INT product_id FK
         INT category_id FK
     }
-    product_categories }o..|| products : fk_product
-    product_categories }o..|| category : fk_category
+    product_categories }o--|| products : fk_product
+    product_categories }o--|| category : fk_category
 
     product_variant {
         INT product_variant_id PK
