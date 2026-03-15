@@ -66,15 +66,16 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE,
     password TEXT,
     address TEXT,
-    phone VARCHAR(255)
+    phone VARCHAR(255),
+    pictures VARCHAR(255)
 );
 
-CREATE TABLE user_images (
-    user_images_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id INT,
-    path VARCHAR(255),
-    CONSTRAINT fk_user_images FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+-- CREATE TABLE user_images (
+--     user_images_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+--     user_id INT,
+--     path VARCHAR(255),
+--     CONSTRAINT fk_user_images FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+-- );
 
 
 CREATE TABLE reviews (
