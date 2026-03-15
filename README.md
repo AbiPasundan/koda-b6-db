@@ -42,104 +42,89 @@ erDiagram
 
     %%{init: {'theme': 'forest'}}%%
 
-    product {
-        id int pk
-        pictures varchar fk
-        product_name varchar
-        desc text
-        price decimal
-        flash_sale varchar
-        rating varchar
-        discount int fk
-        sizr int fk
-        review int
-        category varchar fk
-        quantity int
-    }
-    
-    product_variant {
-        variant int pk
-        add_price varchar
-    }
-    
-    product_size {
-        id int pk
-        size_name int pk
-        add_price int pk
-    }
-    
-    product_images {
-        p_id int pk
-        path varchar pk
+    category {
+        INT category_id PK
+        VARCHAR(30) category_name
     }
 
     discount {
-        id int pk
-        discount_rate varchar
-        desc varchar
-        is_flash_sale varchar
+        INT discount_id PK
+        INT discount_rate
+        VARCHAR(500) description
+        BOOLEAN is_flash_sale
     }
-    
-    category {
-        category_id int pk
-        category_name varchar
+
+    products {
+        INT id PK
+        VARCHAR(30) product_name
+        TEXT product_desc
+        INT price
+        INT quantity
+        INT discount FK
+    }
+    products }o..|| discount : fk_discount
+
+    product_categories {
+        INT product_id FK
+        INT category_id FK
+    }
+    product_categories }o..|| products : fk_product
+    product_categories }o..|| category : fk_category
+
+    product_variant {
+        INT product_variant_id PK
+        INT product_id FK
+        VARCHAR(50) variant_name
+        INT add_price
+    }
+    product_variant }o..|| products : fk_variant
+
+    product_size {
+        INT product_size_id PK
+        INT product_id FK
+        VARCHAR(50) size_name
+        INT size_price
+    }
+    product_size }o..|| products : fk_size
+
+    product_images {
+        INT product_images_id PK
+        INT product_id FK
+        VARCHAR(255) path
+    }
+    product_images }o..|| products : fk_images
+
+    users {
+        INT id PK
+        VARCHAR(30) full_name
+        VARCHAR(30) email
+        TEXT password
+        TEXT address
+        VARCHAR(30) phone
+        VARCHAR(100) pictures
     }
 
     reviews {
-        reviews_id int pk
-        message varchar
-        rattings varchar
+        INT review_id PK
+        INT user_id FK
+        TEXT messages
+        INT ratings
     }
+    reviews }o..|| users : fk_user_id
 
-    product ||--|{product_variant: ""
-    product ||--|{product_size : ""
-    product ||--|{product_images : ""
-    product ||--|{category : ""
-    product ||--|{reviews : ""
-    product }|--||discount : ""
-
-    reviews ||--|{users : ""
-    product ||--||cart : ""
-    users ||--||cart : ""
-
-    cart {
-        cart_id int pk
-    }
-
-    users {
-        id int pk
-        full_name varchar
-        email varchar
-        password varchar
-        address text
-        phone varchar
-        pictures varchar
-    }
-
-    transaction {
-        quantity int fk
-        full_name varchar
-        email varchar
-        address varchar
-        sub_total int
-        delivery int
-        tax int
-        total int
-        transaction_id int fk
-        date time_stamp
-        status varchar fk
-        payment_method varchar fk
-    }
-
-    transaction }|--|{ transaction_product : ""
-    product }|--|{ transaction_product : ""
-
-    transaction_product {
-        transaction_id int pk
-        quantity int
-        size varchar
-        variant varchar
-        price int
+    orders {
+        INT id PK
+        VARCHAR(30) delivery_method
+        VARCHAR(100) full_name
+        VARCHAR(100) email
+        TEXT address
+        INT sub_total
+        INT delivery_fee
+        INT tax
+        INT total
+        TIMESTAMP date
+        VARCHAR(30) status
+        INT payment_method
     }
 
 ```
